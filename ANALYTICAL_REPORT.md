@@ -1,6 +1,6 @@
 # Analytical Report: Minimum Spanning Tree Algorithm Implementation
 
-**Student:** [Your Name]  
+**Student:** Nurassyl Orazbek  
 **Course:** Design and Analysis of Algorithms  
 **Assignment:** 3 - City Transportation Network Optimization  
 **Date:** October 25, 2025
@@ -86,17 +86,12 @@ Two classical MST algorithms were implemented and compared:
 - **Edge density:** High (83% of complete graph)
 
 ### 3.2 Results Table
+<img width="882" height="250" alt="image" src="https://github.com/user-attachments/assets/ba1efc01-1537-423a-90c6-abe605568de0" />
 
-| Graph | Algorithm | Total Cost | Operations | Execution Time (ms) | MST Edges |
-|-------|-----------|------------|------------|---------------------|-----------|
-| 1     | Prim      | 16         | 42         | 0.41-0.47          | 4         |
-| 1     | Kruskal   | 16         | 37         | 0.36-0.38          | 4         |
-| 2     | Prim      | 6          | 29         | 0.04-0.07          | 3         |
-| 2     | Kruskal   | 6          | 31         | 0.05               | 3         |
 
 ### 3.3 Key Observations
 
-1. **Cost Verification:** ✅ Both algorithms produce identical MST costs for each graph, confirming correctness
+1. **Cost Verification:** Both algorithms produce identical MST costs for each graph, confirming correctness
 2. **Operation Count:** Varies based on algorithm characteristics:
    - Graph 1: Kruskal performs fewer operations (37 vs 42)
    - Graph 2: Similar operation counts (29 vs 31)
@@ -161,14 +156,6 @@ Two classical MST algorithms were implemented and compared:
 3. Edges can be efficiently sorted
 4. Union-Find data structure is available
 
-### 5.2 Implementation Quality
-
-Both implementations demonstrate:
-- ✅ **Correctness:** Produce valid MSTs with matching costs
-- ✅ **Efficiency:** Sub-millisecond execution on test graphs
-- ✅ **Robustness:** Handle edge cases (empty graphs, disconnected components)
-- ✅ **Maintainability:** Clean code structure with clear separation of concerns
-
 ### 5.3 Real-World Applicability
 
 For the city transportation network problem:
@@ -187,35 +174,6 @@ For the city transportation network problem:
 
 ---
 
-## 6. Future Improvements
-
-### 6.1 Potential Enhancements
-1. **Parallel processing** for edge sorting in Kruskal's algorithm
-2. **Fibonacci heap** implementation for Prim's algorithm (theoretical O(E + V log V))
-3. **Dynamic MST** algorithms for handling edge insertions/deletions
-4. **Visualization tools** to display MST construction step-by-step
-
-### 6.2 Extended Testing
-1. Test on larger graphs (100-10,000 vertices)
-2. Test on various graph densities (sparse, medium, dense)
-3. Benchmark against optimized library implementations
-4. Test with different edge weight distributions
-
----
-
-## 7. References
-
-1. Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.
-
-2. Prim, R. C. (1957). "Shortest Connection Networks and Some Generalizations". *Bell System Technical Journal*, 36(6): 1389–1401.
-
-3. Kruskal, J. B. (1956). "On the Shortest Spanning Subtree of a Graph and the Traveling Salesman Problem". *Proceedings of the American Mathematical Society*, 7(1): 48–50.
-
-4. Tarjan, R. E. (1975). "Efficiency of a Good But Not Linear Set Union Algorithm". *Journal of the ACM*, 22(2): 215–225.
-
-5. Sedgewick, R., & Wayne, K. (2011). *Algorithms* (4th ed.). Addison-Wesley Professional.
-
----
 
 ## Appendix A: Sample Output
 
@@ -236,6 +194,4 @@ C - D : weight 3
 Total Cost: 6
 ```
 
----
 
-**End of Report**
