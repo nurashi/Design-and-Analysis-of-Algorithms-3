@@ -10,8 +10,7 @@ import citynetwork.model.TransportNetwork;
 import citynetwork.helpers.JsonReader;
 import static citynetwork.helpers.OutputFormatter.*;
 
-// Main application for analyzing city transportation network optimization
-//Applies both Prim's and Kruskal's algorithms to find the Minimum Spanning Tree
+// Main program - runs both MST algorithms and outputs results
 public class NetworkOptimizer {
     
     public static void main(String[] args) throws Exception {
@@ -33,6 +32,7 @@ public class NetworkOptimizer {
             stats.put("edges", net.getRoadCount());
             netResult.put("input_stats", stats);
 
+            // Run Prim's algorithm
             PrimAlgorithm.MSTResult primRes = PrimAlgorithm.execute(net);
             Map<String, Object> primMap = new LinkedHashMap<>();
             primMap.put("mst_edges", formatRoadsForOutput(primRes.mstRoads));
@@ -44,6 +44,7 @@ public class NetworkOptimizer {
                 roundToTwoDecimals(primRes.timeMs));
             netResult.put("prim", primMap);
 
+            // Run Kruskal's algorithm
             KruskalAlgorithm.MSTResult kruskalRes = KruskalAlgorithm.execute(net);
             Map<String, Object> kruskalMap = new LinkedHashMap<>();
             kruskalMap.put("mst_edges", formatRoadsForOutput(kruskalRes.mstRoads));

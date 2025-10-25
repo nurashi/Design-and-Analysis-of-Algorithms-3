@@ -4,29 +4,15 @@ import java.util.*;
 import citynetwork.model.Road;
 import citynetwork.model.TransportNetwork;
 
-/**
- * Implementation of Prim's algorithm for finding the Minimum Spanning Tree.
- * 
- * Prim's algorithm is a greedy algorithm that builds the MST by starting from
- * an arbitrary vertex and repeatedly adding the minimum weight edge that connects
- * a visited vertex to an unvisited vertex.
- * 
- * Time Complexity: O((V + E) log V) where V is vertices and E is edges
- * Space Complexity: O(V + E) for adjacency map and priority queue
- * 
- * Best suited for dense graphs where E ≈ V²
- */
+// Prim's algorithm - builds MST by growing tree from starting vertex
 public class PrimAlgorithm {
     
-    /**
-     * Result container for Prim's algorithm execution.
-     * Contains the MST edges, total cost, operation count, and execution time.
-     */
+    // Stores algorithm results
     public static class MSTResult {
-        public final List<Road> mstRoads;        // List of roads in the MST
-        public final int totalCost;              // Sum of all road construction costs
-        public final long operations;            // Number of key operations performed
-        public final double timeMs;              // Execution time in milliseconds
+        public final List<Road> mstRoads;
+        public final int totalCost;
+        public final long operations;
+        public final double timeMs;
 
         public MSTResult(List<Road> roads, int cost, long ops, double time) {
             this.mstRoads = roads;
@@ -36,86 +22,65 @@ public class PrimAlgorithm {
         }
     }
 
-    /**
-     * Executes Prim's algorithm on the given transportation network.
-     * 
-     * Algorithm steps:
-     * 1. Start with an arbitrary vertex (first district)
-     * 2. Mark it as visited and add all its edges to priority queue
-     * 3. While queue is not empty and MST incomplete:
-     *    - Extract minimum weight edge from queue
-     *    - If destination is unvisited, add edge to MST
-     *    - Mark destination as visited
-     *    - Add all edges from destination to queue
-     * 4. Return MST with total cost and metrics
-     * 
-     * @param network The transportation network to find MST for
-     * @return MSTResult containing MST edges, cost, operations, and time
-     */
+    // Runs Prim's algorithm using priority queue approach
     public static MSTResult execute(TransportNetwork network) {
         long start = System.nanoTime();
         
-        // Build adjacency map for O(1) neighbor access
         Map<String, List<Road>> adjMap = network.buildAdjacencyMap();
-        Set<String> visited = new HashSet<>();              // Track visited districts
-        PriorityQueue<Road> pq = new PriorityQueue<>();     // Min-heap by road cost
+        Set<String> visited = new HashSet<>();
+        PriorityQueue<Road> pq = new PriorityQueue<>();
         
-        long ops = 0;                    // Operation counter for analysis
-        List<Road> mst = new ArrayList<>();  // MST edge list
-        int cost = 0;                    // Total MST cost accumulator
+        long ops = 0;
+        List<Road> mst = new ArrayList<>();
+        int cost = 0;
 
-        // Handle empty graph edge case
         if (network.districts.isEmpty()) {
             return new MSTResult(mst, 0, ops, 0);
         }
 
-        // Start from first district (arbitrary choice)
+        // Start from first district
         String startNode = network.districts.get(0);
         visited.add(startNode);
         ops++;
         
-        // Add all edges from starting district to priority queue
+        // Add all edges from starting point
         List<Road> startRoads = adjMap.get(startNode);
         for (Road road : startRoads) {
-            pq.add(road);      // O(log E) insertion
+            pq.add(road);
             ops++;
         }
 
-        // Main loop: build MST by selecting minimum edges
-        // Continue until we have V-1 edges (complete spanning tree)
-        while (!pq.isEmpty() && 
-               mst.size() < network.getDistrictCount() - 1) {
+        // Keep adding minimum edges until tree is complete
+        while (!pq.isEmpty() && mst.size() < network.getDistrictCount() - 1) {
             
-            Road current = pq.poll();      // Extract minimum weight edge O(log E)
+            Road current = pq.poll();
             ops++; 
             
-            // Skip if destination already visited (would create cycle)
+            // Skip if already visited (would create cycle)
             if (visited.contains(current.destinationDistrict)) {
                 ops++;
                 continue;
             }
             
-            // Add destination to visited set
             visited.add(current.destinationDistrict);
             ops++;
             
-            // Add edge to MST and update total cost
             mst.add(current);
             cost += current.constructionCost;
             
-            // Add all edges from newly visited district to queue
+            // Add new edges from newly added vertex
             List<Road> neighbors = adjMap.get(current.destinationDistrict);
             for (Road neighbor : neighbors) {
                 if (!visited.contains(neighbor.destinationDistrict)) {
-                    pq.add(neighbor);       // O(log E) insertion
+                    pq.add(neighbor);
                     ops++;
                 }
-                ops++;  // Count the containment check
+                ops++;
             }
         }
 
         long end = System.nanoTime();
-        double time = (end - start) / 1_000_000.0;  // Convert to milliseconds
+        double time = (end - start) / 1_000_000.0;
         
         return new MSTResult(mst, cost, ops, time);
     }
